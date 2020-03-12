@@ -33,9 +33,9 @@ The volume mapping is needed to access to the zip file from within the container
 
 ## Requirements:
 TL;DR: Use Docker to download the prebuilt container image from https://hub.docker.com/r/rravir/rk2s
+
 Dockerfile included specifies all the needed dependencies - if u wish to install them on your own machine or
 build your own docker image.
-
 
 ### Long Version
 Strava APIs are published in a swagger.json (https://developers.strava.com/swagger/swagger.json).
