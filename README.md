@@ -6,6 +6,7 @@ runkeeper does not export clear APIs like strava does - so runkeeper activities 
 downloaded as .zip file and provided as an input to this tool.
 
 The steps involved are:
+
 0. Download activities as a zip file from runkeeper
 1. Visit http://employees.org/~ravir/play/rk2s/rk2s.html to get access token and refresh token
    This is starting page to give permissions to strava account
