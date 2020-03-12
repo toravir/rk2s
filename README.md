@@ -25,22 +25,23 @@ python rk2s.py [-h] --atok ATOK --rtok RTOK --zip ZIP [--delay DELAY]
 --delay : delay in seconds (default 10s) between consecutive uploads to strava
 ```
 
-If OTOH, you are using the docker container use:
+If OTOH, you are using the docker containers, use:
 ```
 docker run -it -v `pwd`:/cwd rravir/rk2s:latest [-h] --atok ATOK --rtok RTOK --zip ZIP [--delay DELAY]
-
 ```
+The volume mapping is needed to access to the zip file from within the container.
 
 ## Requirements:
-Use Docker to build a container and run. Dockerfile included specifies all 
-the needed dependencies.
+TL;DR: Use Docker to download the prebuilt container image from https://hub.docker.com/r/rravir/rk2s
+Dockerfile included specifies all the needed dependencies - if u wish to install them on your own machine or
+build your own docker image.
 
 
 ### Long Version
-This is where it gets complex - strava APIs are published in a swagger.json
-(https://developers.strava.com/swagger/swagger.json) - You need to download it
-and use swagger codegen to generate python client api library. In addition to
-that there are a bunch of requirements.
+Strava APIs are published in a swagger.json (https://developers.strava.com/swagger/swagger.json).
+You need to download it and use swagger codegen to generate python client api library. In addition to
+that there are a bunch of requirements that code-gen output requires plus rk2s.py requires requests and other
+python packages too. Skim the Dockerfile for the various steps all these dependencies are setup.
 
 ## Examples
 
@@ -59,4 +60,32 @@ Uploading: 457ffc85-c60a-4a0b-a3ca-9ddd46950db6 2011-08-04T08:27:56Z Run 6343.4 
 > 
 ```
 
+
+## Limitations
+1. Error conditions are not handled well - it will just crash and burn.
+2. Mapping of Runkeeper Activities Types to Strava Activity Types are limited to - more can be added - but i don't know
+what are possible activity types in Runkeeper.
+```
+#Map of RK Activity type to strava type
+stravaActType = {
+        "Cycling" : "Ride",
+        "Hiking" : "Hike",
+        "Elliptical" : "Elliptical",
+        "Circuit Training" : "Workout",
+        "Meditation" : "Yoga",
+        "Other" : "Workout",
+        "Rowing" : "Rowing",
+        "Running" : "Run",
+        "Spinning" : "Ride",
+        "Stairmaster / Stepwell" : "Workout",
+        "Strength Training" : "WeightTraining",
+        "Walking" : "Walk",
+        "Yoga" : "Yoga",
+        }
+```
+3. I don't have enough test inputs (except my own) to verify - i have included two testcases in the repo:
+   tc1/tc1.zip - has manual activities without any GPX
+   tc2/tc2.zip - has GPX based activities
+4. Strava Activity cannot be set to be private or public during the upload - if this is needed, please open
+and issue and i can look into how to set that.
 
