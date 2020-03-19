@@ -164,14 +164,15 @@ currAccTok={}
 
 def getAccessToken():
     clientId='43847'
-    clientSec='59601952bd1d6a0774cfc8bd51cdf65f51e07ecb'
+    #Use your correct Secret here - the secret below is not the exact one..
+    clientSec='59601952bd1d6a0774cfc8bd51cdf65f51'
     if currAccTok['expires_at']-int(time.time()) < 0:
         print("token has Expired.. Refreshing token..")
         refreshTok=currAccTok['refresh_token']
         r = requests.post('https://www.strava.com/api/v3/oauth/token?client_id='+clientId+'&client_secret='+clientSec+'&grant_type=refresh_token&refresh_token='+refreshTok)
         if r.status_code != 200:
             print("Token Refresh Failed :"+r.text)
-            print("Bailing out - nothing more can be done...")
+            print("Bailing out - nothing more can be done - may be you haven't put in the correct clientSecret ??")
             sys.exit(1)
         resp=json.loads(r.text)
         currAccTok['token']=resp['access_token']
